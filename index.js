@@ -9,6 +9,7 @@ const homeRoutes = require('./routes/homeroutes');
 const refreshRoutes = require('./routes/refreshroutes');
 const blogRoutes = require('./routes/blogroutes');
 const wordofdayroutes = require('./routes/wordofdayroutes');
+const tagRoutes = require('./routes/tagroutes');
 const connectDB = require("./mongodb");
 
 //load env vars
@@ -44,6 +45,7 @@ app.use('/api/users/edit',userRoutes);
 app.use('/api/users/signup',signupRoutes);
 app.use('/api/users/login',loginRoutes);
 app.use('/api/blogs',blogRoutes);
+app.use('/api/tags',tagRoutes);
 app.use('/api/wordofday',wordofdayroutes);
 app.use('/api/users/refresh',refreshRoutes);
 app.use('/',homeRoutes);
