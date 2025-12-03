@@ -1,49 +1,56 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../db');
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
+const User = require("../models/User");
 
-router.post('/', async (req, res) => {
-    const{user_name,user_email,user_password} = req.body;
+router.post("/", async (req, res) => {
+    const { user_name, user_email, user_password } = req.body;
+
+    if (!user_name || !user_email || !user_password) {
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
     const saltRounds = 12;
-    const hashedPassword =await bcrypt.hash(user_password,12);
-
+    const hashedPassword = await bcrypt.hash(user_password, saltRounds);
     const role = "user";
     const userKey = "uh9hbidjewcivuwgevdibqjwk";
 
-    try{
+    try {
         // Check if username already exists
-        const [usernameResult] = await pool.query(
-            'SELECT * FROM users WHERE user_name = ?',
-            [user_name]
-        );
+        const usernameExists = await User.findOne({ user_name });
+        if (usernameExists) {
+            return res.status(400).json({ error: "Username already exists" });
+        }
 
         // Check if email already exists
-        const [emailResult] = await pool.query(
-            'SELECT * FROM users WHERE user_email = ?',
-            [user_email]
-        );
-
-        if (usernameResult.length > 0) {
-            return res.status(400).json({ error: 'Username already exists' });
+        const emailExists = await User.findOne({ user_email });
+        if (emailExists) {
+            return res.status(400).json({ error: "Email already exists" });
         }
 
-        if (emailResult.length > 0) {
-            return res.status(400).json({ error: 'Email already exists' });
-        }
-
-        const[result] =await pool.query('insert into users (user_email, user_name, user_password, user_key, role) VALUES (?,?,?,?,?)',[user_email,user_name,hashedPassword,userKey,role])
-        res.status(201).json({
+        // Create new user
+        const newUser = new User({
             user_name,
             user_email,
-            hashedPassword,
-            userKey,
+            user_password: hashedPassword,
+            user_key: userKey,
             role
-        })
+        });
+
+        await newUser.save();
+
+        res.status(201).json({
+            user_name: newUser.user_name,
+            user_email: newUser.user_email,
+            user_password: hashedPassword,
+            user_key: newUser.user_key,
+            role: newUser.role
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal server error" });
     }
-    catch (e){
-        console.error(e);
-    }
-})
+});
 
 module.exports = router;

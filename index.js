@@ -9,17 +9,26 @@ const homeRoutes = require('./routes/homeroutes');
 const refreshRoutes = require('./routes/refreshroutes');
 const blogRoutes = require('./routes/blogroutes');
 const wordofdayroutes = require('./routes/wordofdayroutes');
+const connectDB = require("./mongodb");
 
 //load env vars
 dotenv.config();
 
 const app = express();
+connectDB();
 
 // app.use(cors({
 //     origin: `${process.env.CORS_ALLOWED_URL}`,
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //     credentials: true
 // }));
+
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 
 app.use(express.json());
 

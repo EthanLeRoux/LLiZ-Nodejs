@@ -1,158 +1,150 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../db');
-const authenticateToken = require('../middleware/auth');
+const Blog = require("../models/Blog");
+const Tag = require("../models/Tag");
+const authenticateToken = require("../middleware/auth");
 
-router.get('/', async (req, res) =>{
-   try{
-       const[rows] = await pool.query('SELECT * FROM blog');
+// GET all blogs
+router.get("/", async (req, res) => {
+    try {
+        const blogs = await Blog.find().populate("tags");
 
-       if(rows.length===0){
-           res.status(404).json({error:'No blogs were found :('});
-       }
-       res.json(rows);
-   }
-   catch (e){
-       console.error(e);
-       res.status(404).json({error:'Something went wrong with fetching blogs'})
-   }
+        if (blogs.length === 0) {
+            return res.status(404).json({ error: "No blogs were found :(" });
+        }
+
+        res.json(blogs);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Something went wrong with fetching blogs" });
+    }
 });
 
-//blog by id
-router.get('/:id', async (req, res) => {
+// GET blog by id
+router.get("/:id", async (req, res) => {
     try {
         const blogId = req.params.id;
 
-        // Validate blogId as a number
-        if (isNaN(blogId)) {
-            return res.status(400).json({ error: 'Invalid blog ID' });
+        if (!blogId.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ error: "Invalid blog ID" });
         }
 
-        // Fetch blog and its tags
-        const [rows] = await pool.query(`
-            SELECT 
-                b.id, 
-                b.title, 
-                b.author, 
-                b.content, 
-                GROUP_CONCAT(t.tag_name) AS tags
-            FROM 
-                blog b
-            JOIN 
-                blog_tags bt ON b.id = bt.blog_id
-            JOIN 
-                tags t ON bt.tag_id = t.tag_id
-            WHERE 
-                b.id = ?
-            GROUP BY 
-                b.id;
-        `, [blogId]);
+        const blog = await Blog.findById(blogId).populate("tags");
 
-        if (rows.length === 0) {
-            return res.status(404).send('Blog not found');
+        if (!blog) {
+            return res.status(404).json({ error: "Blog not found" });
         }
-
-        const blog = rows[0];
 
         res.json({
             title: blog.title,
             author: blog.author,
             content: blog.content,
-            tags: blog.tags ? blog.tags.split(',') : [], // Convert the comma-separated string into an array
+            tags: blog.tags.map(t => t.tag_name),
             appId: process.env.CUSDIS_APP_ID
         });
     } catch (e) {
         console.error(e);
-        res.status(500).json({ error: 'Internal Server Error: Unable to fetch blog' });
+        res.status(500).json({ error: "Internal Server Error: Unable to fetch blog" });
     }
 });
 
-
-router.post('/', authenticateToken, async (req, res) => {
+// POST create blog
+router.post("/", authenticateToken, async (req, res) => {
     const { title, author, content, tags } = req.body;
 
     if (!title || !content) {
-        return res.status(400).json({ error: 'Title and content are required' });
+        return res.status(400).json({ error: "Title and content are required" });
     }
 
     try {
-        const userId = req.user.id; // from token
-
-        // Step 1: Insert the blog post
-        const [result] = await pool.query(
-            'INSERT INTO blog (title, author, content, created_at) VALUES (?, ?, ?, NOW())',
-            [title, author, content]
-        );
-        const blogId = result.insertId;
+        let tagIds = [];
 
         if (tags && tags.length > 0) {
-            // Step 2: Handle predefined tags
-            const querySelectTag = 'SELECT tag_id FROM tags WHERE tag_name = ?';
-            const queryInsertBlogTags = 'INSERT INTO blog_tags (blog_id, tag_id) VALUES (?, ?)';
-
             for (const tagName of tags) {
-                // Check if the tag exists in the `tags` table
-                const [tagRows] = await pool.query(querySelectTag, [tagName]);
-                if (tagRows.length > 0) {
-                    const tagId = tagRows[0].tag_id;
+                let tag = await Tag.findOne({ tag_name: tagName });
 
-                    // Insert into `blog_tags` table
-                    await pool.query(queryInsertBlogTags, [blogId, tagId]);
-                } else {
+                if (!tag) {
                     console.warn(`Tag "${tagName}" not found. Skipping.`);
+                    continue;
                 }
+
+                tagIds.push(tag._id);
             }
         }
 
-        res.status(201).json({ message: 'Blog post created successfully', blogId });
+        const newBlog = new Blog({
+            title,
+            author,
+            content,
+            tags: tagIds
+        });
+
+        await newBlog.save();
+
+        res.status(201).json({
+            message: "Blog post created successfully",
+            blogId: newBlog._id
+        });
+
     } catch (e) {
         console.error(e);
-        res.status(500).json({ error: 'Something went wrong during blog submission' });
+        res.status(500).json({ error: "Something went wrong during blog submission" });
     }
 });
 
-router.delete('/:id',async (req,res) => {
+// DELETE blog
+router.delete("/:id", async (req, res) => {
+    try {
+        const blogId = req.params.id;
 
-try{
-    const blogId = req.params.id;
+        if (!blogId.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ error: "Invalid blog ID" });
+        }
 
-    if (isNaN(blogId)) {
-        return res.status(400).json({error: 'Invalid blog ID'});
+        const deleted = await Blog.findByIdAndDelete(blogId);
+
+        if (!deleted) {
+            return res.status(404).json({ error: "Blog not found" });
+        }
+
+        res.json({ message: "Blog deleted successfully" });
+
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Internal Server Error: Unable to delete the blog" });
     }
-    const [result] = await pool.query('DELETE FROM blog WHERE id = ?', [blogId]);
-
-    // Check if the blog existed and was deleted
-    if (result.affectedRows === 0) {
-        return res.status(404).json({error: 'Blog not found'});
-    }
-
-    res.status(200).json({message: 'Blog deleted successfully'});
-}
-catch(e){
-    console.error(e);
-    res.status(500).json({ error: 'Internal Server Error: Unable to delete the blog' });
-}
 });
 
-router.put('/:id',async (req,res)=> {
-    try{
+// UPDATE blog
+router.put("/:id", async (req, res) => {
+    try {
         const blogId = req.params.id;
         const { title, content } = req.body;
 
-        const [result] = await pool.query(
-            'UPDATE blog SET title = ?, content = ?,updated_at =NOW() WHERE id = ?', [title, content, blogId]
-        );
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Blog not found' });
+        if (!blogId.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ error: "Invalid blog ID" });
         }
 
-        res.status(200).json({ message: 'Blog updated successfully' });
-    }
-    catch (e){
+        const updated = await Blog.findByIdAndUpdate(
+            blogId,
+            {
+                title,
+                content,
+                updated_at: new Date()
+            },
+            { new: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ error: "Blog not found" });
+        }
+
+        res.json({ message: "Blog updated successfully" });
+
+    } catch (e) {
         console.error(e);
-        res.status(500).json({ error: 'Internal Server Error: Unable to update the blog' });
+        res.status(500).json({ error: "Internal Server Error: Unable to update the blog" });
     }
-})
+});
 
 module.exports = router;
