@@ -50,7 +50,7 @@ router.get("/:id", async (req, res) => {
 
 // POST create blog
 router.post("/", authenticateToken, async (req, res) => {
-    const { title, author, content, tags } = req.body;
+    const { title, author, content, tags, authorId } = req.body;
 
     if (!title || !content) {
         return res.status(400).json({ error: "Title and content are required" });
@@ -75,6 +75,7 @@ router.post("/", authenticateToken, async (req, res) => {
         const newBlog = new Blog({
             title,
             author,
+            authorId,
             content,
             tags: tagIds
         });
