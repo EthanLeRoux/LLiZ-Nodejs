@@ -89,6 +89,24 @@ router.get("/bycomments", async (req, res) => {
   }
 });
 
+//Filter by tags
+router.get("/filter", async (req, res) => {
+  try {
+    const tagIds = req.query.tags?.split(",") || [];
+
+    const blogs = await Blog.find({
+      tags: { $in: tagIds }
+    }).populate("tags");
+
+    res.json(blogs);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Could not filter blogs by tags" });
+  }
+});
+
+
 // GET blog by id
 router.get("/:id", async (req, res) => {
     try {
