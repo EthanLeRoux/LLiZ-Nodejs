@@ -42,14 +42,16 @@ router.post("/:id/dislike", async (req, res) => {
     if (!blog) return res.status(404).json({ error: "Blog not found" });
 
     if (blog.dislikes.includes(userId)) {
-      blog.dislikes.pull(userId);
+      const index = blog.likes.indexOf(userId);
+      blog.dislikes.splice(index, 1);
     } else {
       blog.dislikes.push(userId);
-      blog.likes.pull(userId);
+      const index = blog.likes.indexOf(userId);
+      blog.likes.splice(index, 1);
     }
 
     await blog.save();
-    res.json({ dislikes: blog.dislikes.length });
+    res.json(blog);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Could not update dislike" });
