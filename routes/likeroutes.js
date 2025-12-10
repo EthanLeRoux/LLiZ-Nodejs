@@ -10,20 +10,19 @@ router.post("/:id/like", async (req, res) => {
   try {
     const blog = await Blog.findById(blogId);
     if (!blog) return res.status(404).json({ error: "Blog not found" });
-
+    console.log(userId)
     // If user already liked → remove like
     if (blog.likes.includes(userId)) {
-      const index = blog.likes.indexOf(userId);
-      blog.likes.splice(index, 1);
-      //blog.likes.pull(userId);
-    } else {
-      // Add like, remove dislike
-      blog.likes.push(userId);
-      const index = blog.likes.indexOf(userId);
-      blog.likes.splice(index, 1);
-      //blog.dislikes.pull(userId);
+       const index = blog.likes.indexOf(userId);
+       blog.likes.splice(index, 1);
     }
-
+    else{
+      // Add like, remove dislike
+       blog.likes.push(userId);
+      console.log(blog.likes)
+       const index = blog.dislikes.indexOf(userId);
+       blog.dislikes.splice(index, 1);
+    }
     await blog.save();
     res.json(blog);
   } catch (err) {
