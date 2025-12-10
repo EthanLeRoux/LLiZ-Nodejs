@@ -52,6 +52,42 @@ router.get("/bydate/asc", async (req, res) => {
   }
 });
 
+router.get("/bycomments", async (req, res) => {
+  try {
+    const blogs = await Blog.aggregate([
+      // Join comments
+      {
+        $lookup: {
+          from: "comments",          // name of the Comment collection
+          localField: "_id",
+          foreignField: "blogId",
+          as: "comments"
+        }
+      },
+
+      // Add comment count
+      {
+        $addFields: {
+          commentCount: { $size: "$comments" }
+        }
+      },
+
+      // Sort by most comments
+      {
+        $sort: { commentCount: -1 }
+      }
+    ]);
+
+    // OPTIONAL: Populate tags after pipeline
+    await Blog.populate(blogs, { path: "tags" });
+
+    res.json(blogs);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Could not fetch blogs sorted by comments" });
+  }
+});
 
 // GET blog by id
 router.get("/:id", async (req, res) => {
