@@ -20,6 +20,39 @@ router.get("/", async (req, res) => {
     }
 });
 
+// GET all blogs sorted by likes ASCENDING
+router.get("/bylikes/asc", async (req, res) => {
+    try {
+        const blogs = await Blog.find().populate("tags");
+
+        if (blogs.length === 0) {
+            return res.status(404).json({ error: "No blogs were found :(" });
+        }
+        blogs.sort((a, b) => b.likes.length - a.likes.length);
+
+        res.json(blogs);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Something went wrong with fetching blogs" });
+    }
+});
+
+// GET all blogs sorted by date ASCENDING (oldest first)
+router.get("/bydate/asc", async (req, res) => {
+  try {
+    const blogs = await Blog.find()
+      .populate("tags")
+      .sort({ createdAt: 1 }); // 1 = oldest first
+
+    res.json(blogs);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong fetching blogs" });
+  }
+});
+
+
 // GET blog by id
 router.get("/:id", async (req, res) => {
     try {
