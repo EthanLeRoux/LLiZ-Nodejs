@@ -7,7 +7,8 @@ const BlogSchema = new mongoose.Schema({
     content: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null },
-
+    likes: { type: [String], default: [] },     // MUST EXIST
+  dislikes: { type: [String], default: [] },
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }]
 });
 

@@ -35,13 +35,7 @@ router.get("/:id", async (req, res) => {
             return res.status(404).json({ error: "Blog not found" });
         }
 
-        res.json({
-            title: blog.title,
-            author: blog.author,
-            content: blog.content,
-            tags: blog.tags.map(t => t.tag_name),
-            appId: process.env.CUSDIS_APP_ID
-        });
+        res.json(blog);
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: "Internal Server Error: Unable to fetch blog" });

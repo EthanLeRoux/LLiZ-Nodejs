@@ -12,6 +12,7 @@ const wordofdayroutes = require('./routes/wordofdayroutes');
 const tagRoutes = require('./routes/tagroutes');
 const connectDB = require("./mongodb");
 const commentRoutes = require('./routes/commentroutes');
+const likeRoutes = require('./routes/likeroutes');
 
 //load env vars
 dotenv.config();
@@ -51,3 +52,4 @@ app.use('/api/wordofday',wordofdayroutes);
 app.use('/api/users/refresh',refreshRoutes);
 app.use('/',homeRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/bloglikes', likeRoutes);
