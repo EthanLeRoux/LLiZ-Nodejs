@@ -178,9 +178,16 @@ router.post("/", authenticateToken, async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const blogId = req.params.id;
+        const { authorId } = req.body;
 
         if (!blogId.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ error: "Invalid blog ID" });
+        }
+        const blog = await Blog.findById(blogId);
+
+        // Authorization check
+        if (blog.authorId.toString() !== authorId) {
+            return res.status(403).json({ error: "You are not authorized to update this blog" });
         }
 
         const deleted = await Blog.findByIdAndDelete(blogId);
