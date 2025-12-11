@@ -4,7 +4,7 @@ const router = express.Router();
 const Comment = require('../models/Comment');
 
 // GET comments for a specific blog
-router.get('/:blogId', async (req, res) => {
+router.get('/blog/:blogId', async (req, res) => {
     try {
         const comments = await Comment.find({ blogId: req.params.blogId }).sort({ createdAt: -1 });
         res.json(comments);
@@ -14,15 +14,17 @@ router.get('/:blogId', async (req, res) => {
     }
 });
 
-// GET all comments for a blog
-router.get('/:blogId', async (req, res) => {
+// GET comment by ID
+router.get('/:commentId', async (req, res) => {
     try {
-        const comments = await Comment.find({ blogId: req.params.blogId })
-                                      .sort({ createdAt: 1 }); // oldest first
-        res.json(comments);
+        const comment = await Comment.findById(req.params.commentId);
+        if (!comment) {
+            return res.status(404).json({ error: 'Comment not found' });
+        }
+        res.json(comment);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to fetch comments' });
+        res.status(500).json({ error: 'Failed to fetch comment' });
     }
 });
 
@@ -30,9 +32,10 @@ router.get('/:blogId', async (req, res) => {
 // POST a new comment
 router.post('/', async (req, res) => {
     const { blogId, author, authorId, content, parentId } = req.body;
+    console.log("REQ BODY:", req.body);
 
-    if (!blogId || !author || !content) {
-        return res.status(400).json({ error: 'Blog ID, author, and content are required' });
+    if (!blogId || !author || !authorId || !content) {
+        return res.status(400).json({ error: 'Blog ID, author ID, author, and content are required' });
     }
 
     try {
