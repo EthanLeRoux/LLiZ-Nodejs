@@ -1,0 +1,1009 @@
+{
+  "info": {
+    "_postman_id": "c2d9521d-c04d-45db-b83d-107ea1fc938c",
+    "name": "LLiZ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Imports",
+      "item": [
+        {
+          "name": "Import WODs dev",
+          "id": "9209bc93-88ef-4754-acb6-948158d3f0d9",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"words\": [\r\n    {\r\n      \"word\": \"sawubona\",\r\n      \"definition\": \"hello / I see you\",\r\n      \"word_date\": \"2025-12-03\"\r\n    },\r\n    {\r\n      \"word\": \"ngiyaphila\",\r\n      \"definition\": \"I am fine\",\r\n      \"word_date\": \"2025-12-04\"\r\n    },\r\n    {\r\n      \"word\": \"yebo\",\r\n      \"definition\": \"yes\",\r\n      \"word_date\": \"2025-12-05\"\r\n    },\r\n    {\r\n      \"word\": \"cha\",\r\n      \"definition\": \"no\",\r\n      \"word_date\": \"2025-12-06\"\r\n    },\r\n    {\r\n      \"word\": \"ngiyacela\",\r\n      \"definition\": \"please\",\r\n      \"word_date\": \"2025-12-07\"\r\n    },\r\n    {\r\n      \"word\": \"ngiyabonga\",\r\n      \"definition\": \"thank you\",\r\n      \"word_date\": \"2025-12-08\"\r\n    },\r\n    {\r\n      \"word\": \"uxolo\",\r\n      \"definition\": \"sorry / excuse me\",\r\n      \"word_date\": \"2025-12-09\"\r\n    },\r\n    {\r\n      \"word\": \"sikhona\",\r\n      \"definition\": \"we are here / present\",\r\n      \"word_date\": \"2025-12-10\"\r\n    }\r\n  ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/wordofday/import",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "wordofday",
+                "import"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Import Tags dev",
+          "id": "e52d2ce9-bfb9-4a7e-8cbb-33cb4141d692",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n  { \"tag_name\": \"translation\" }\r\n//   { \"tag_name\": \"music\" },\r\n//   { \"tag_name\": \"grammar\" },\r\n//   { \"tag_name\": \"conversation\" },\r\n//   { \"tag_name\": \"questions\" },\r\n//   { \"tag_name\": \"proverbs\" },\r\n//   { \"tag_name\": \"idioms\" },\r\n//   { \"tag_name\": \"vocabulary\" },\r\n//   { \"tag_name\": \"phrases\" },\r\n//   { \"tag_name\": \"history\" },\r\n//   { \"tag_name\": \"traditions\" },\r\n//   { \"tag_name\": \"stories\" },\r\n//   { \"tag_name\": \"pronunciation\" },\r\n//   { \"tag_name\": \"slang\" },\r\n//   { \"tag_name\": \"literature\" },\r\n//   { \"tag_name\": \"festivals\" },\r\n//   { \"tag_name\": \"travel\" },\r\n//   { \"tag_name\": \"learning tips\" }\r\n]\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/tags/import",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "tags",
+                "import"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "46c1ad6a-70ef-4383-80e8-77177c7e2f02"
+    },
+    {
+      "name": "WOD",
+      "item": [
+        {
+          "name": "GET word of day dev",
+          "id": "b06286e0-391d-41a0-8344-77d5d2907573",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJkdW1teXVzZXIiLCJpYXQiOjE3MzQyNzA4NjIsImV4cCI6MTczNDI3NDQ2Mn0.hWM7vF2Mx_bniiIHgJpCQM6z1IW3_5D5MiPoqE8_60Q",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/wordofday",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "wordofday"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "053159b7-09e5-4fb8-bdff-9409ea78165b"
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Post Comment",
+          "id": "e55abad6-8770-4cfc-ab9a-9c02054ab155",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"blogId\": \"6930568b1a5196f9d01c789c\",\r\n    \"author\": \"Ethan\",\r\n    \"authorId\": \"693046e8313df1c3cca547b8\",\r\n    \"content\": \"This is a really helpful blog, thanks!\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/comments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get comments for a blog",
+          "id": "15c1f7ff-3cf5-4d45-933b-8d2f784819ef",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"blogId\": \"6930568b1a5196f9d01c789c\",\r\n    \"author\": \"Ethan\",\r\n    \"authorId\": \"693046e8313df1c3cca547b8\",\r\n    \"content\": \"This is a really helpful blog, thanks!\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/comments/6930568b1a5196f9d01c789c",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments",
+                "6930568b1a5196f9d01c789c"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "d89e5130-3f94-4ca7-b750-6d78a3281b9c"
+    },
+    {
+      "name": "Blogs",
+      "item": [
+        {
+          "name": "Get Blogs",
+          "item": [
+            {
+              "name": "GET all blogs Dev",
+              "id": "7f452d44-1136-4b31-b878-373d9fc219fd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJjcmFwIiwiaWF0IjoxNzMzOTM3NzI3LCJleHAiOjE3MzM5NDEzMjd9.xwUU6Fks9LAIf1ZkrwiE00MxDP_-TDs-9HVBdqauzGI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all blogs by Tag Dev",
+              "id": "84c5be1d-bca1-407a-8dc3-69ccd538ea6d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJjcmFwIiwiaWF0IjoxNzMzOTM3NzI3LCJleHAiOjE3MzM5NDEzMjd9.xwUU6Fks9LAIf1ZkrwiE00MxDP_-TDs-9HVBdqauzGI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs/filter?tags=693051bf1a5196f9d01c7859,693051bf1a5196f9d01c785a",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs",
+                    "filter"
+                  ],
+                  "query": [
+                    {
+                      "key": "tags",
+                      "value": "693051bf1a5196f9d01c7859,693051bf1a5196f9d01c785a"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all blogs (by most comments) Dev",
+              "id": "02e8f28b-0a7f-4045-a9c5-ac2e858c2873",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJjcmFwIiwiaWF0IjoxNzMzOTM3NzI3LCJleHAiOjE3MzM5NDEzMjd9.xwUU6Fks9LAIf1ZkrwiE00MxDP_-TDs-9HVBdqauzGI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs/bycomments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs",
+                    "bycomments"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all blogs sort by Likes (Asc)",
+              "id": "b381007a-fac2-4b6e-8569-eab533cb3f15",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJjcmFwIiwiaWF0IjoxNzMzOTM3NzI3LCJleHAiOjE3MzM5NDEzMjd9.xwUU6Fks9LAIf1ZkrwiE00MxDP_-TDs-9HVBdqauzGI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs/bylikes/asc",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs",
+                    "bylikes",
+                    "asc"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all blogs sort by Date (oldest first)",
+              "id": "5aa75054-0b0f-45cd-ba12-708471bd7b59",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJjcmFwIiwiaWF0IjoxNzMzOTM3NzI3LCJleHAiOjE3MzM5NDEzMjd9.xwUU6Fks9LAIf1ZkrwiE00MxDP_-TDs-9HVBdqauzGI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs/bydate/asc",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs",
+                    "bydate",
+                    "asc"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET blog BY id DEV",
+              "id": "423f5c97-f069-4f79-a400-2f710e7c99c4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJkdW1teXVzZXIiLCJpYXQiOjE3MzQyNzA4NjIsImV4cCI6MTczNDI3NDQ2Mn0.hWM7vF2Mx_bniiIHgJpCQM6z1IW3_5D5MiPoqE8_60Q",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userId\":\"693046e8313df1c3cca547b8\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/blogs/69307e9ae08ea2c9f817d8a7",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "blogs",
+                    "69307e9ae08ea2c9f817d8a7"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "3aaf5b94-d005-4bb5-bd81-24aa83934141"
+        },
+        {
+          "name": "Blog Likes",
+          "item": [
+            {
+              "name": "Like a Blog Dev",
+              "id": "bfaf2949-85c1-44f4-bef5-83cbd3d3ec2e",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTMwNDZlODMxM2RmMWMzY2NhNTQ3YjgiLCJ1c2VyX25hbWUiOiJldGhhbiIsImlhdCI6MTc2NDc4NDUzNSwiZXhwIjoxNzY0Nzg4MTM1fQ.Gh6x11jklLUv3c6ACZNO8-4o_Veo0EKCAyWIUcGEud0",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"userId\":\"693046e8313df1c3cca547b8\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/bloglikes/69307e9ae08ea2c9f817d8a7/like",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "bloglikes",
+                    "69307e9ae08ea2c9f817d8a7",
+                    "like"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Dislike a Blog Dev",
+              "id": "fd784607-55fd-4b23-a1c8-0e8d36a19d16",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTMwNDZlODMxM2RmMWMzY2NhNTQ3YjgiLCJ1c2VyX25hbWUiOiJldGhhbiIsImlhdCI6MTc2NDc4NDUzNSwiZXhwIjoxNzY0Nzg4MTM1fQ.Gh6x11jklLUv3c6ACZNO8-4o_Veo0EKCAyWIUcGEud0",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"userId\":\"693046e8313df1c3cca547b8\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/bloglikes/69307e9ae08ea2c9f817d8a7/dislike",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "bloglikes",
+                    "69307e9ae08ea2c9f817d8a7",
+                    "dislike"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "83ded337-374c-4948-9230-967d3a2a8308"
+        },
+        {
+          "name": "Create Blog Dev",
+          "id": "86981b1a-0c4e-40c1-a882-9864c5043efa",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTMwNDZlODMxM2RmMWMzY2NhNTQ3YjgiLCJ1c2VyX25hbWUiOiJldGhhbiIsImlhdCI6MTc2NDc4NDUzNSwiZXhwIjoxNzY0Nzg4MTM1fQ.Gh6x11jklLUv3c6ACZNO8-4o_Veo0EKCAyWIUcGEud0",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Learning Zulu Grammar\",\r\n  \"author\":\"Dummy User\",\r\n  \"authorId\":\"693046e8313df1c3cca547b8\",\r\n  \"content\": \"This blog focuses on Zulu grammar basics...\",\r\n  \"tags\": [\"Grammar\",\"Music\"]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/blogs",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "blogs"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "6ebe63bd-fc0b-4c20-bde9-76669eab15a1"
+    },
+    {
+      "name": "User Signup",
+      "id": "434dedd5-8374-4922-ac35-3f9d5f18ffc2",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_name\": \"dummyuser\",\r\n  \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"password123\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://lliz.onrender.com/api/users/signup/",
+          "protocol": "https",
+          "host": [
+            "lliz",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "users",
+            "signup",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Signup Dev",
+      "id": "fe4a74df-92a7-4ad1-be4c-a0d0837d2e50",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_name\": \"dummyuser\",\r\n  \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"password123\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/users/signup/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "users",
+            "signup",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "4232c2a9-7414-4397-8984-b54c0675d8f4",
+          "name": "User Signup Dev",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"user_name\": \"dummyuser\",\r\n  \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"password123\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/users/signup/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "users",
+                "signup",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "http://localhost:5173"
+            },
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "195"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c3-QZzlR7wCu4/jeiO/bQ77Ho5O5i0\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 15 Dec 2024 13:50:08 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"user_name\": \"dummyuser\",\n    \"user_email\": \"dummyemail@example.com\",\n    \"hashedPassword\": \"$2b$12$fR2QOFgy4cl0cMV8c1.JY.8RSGpcXuZn.TEHn.hPF7JSUgB4kT90K\",\n    \"userKey\": \"uh9hbidjewcivuwgevdibqjwk\",\n    \"role\": \"user\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "User Login",
+      "id": "94b62740-781a-4715-b8e1-15061e9444d9",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_name\": \"dummyuser\",\r\n  \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"password123\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://lliz.onrender.com/api/users/login",
+          "protocol": "https",
+          "host": [
+            "lliz",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "users",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Login Dev",
+      "id": "d6b92916-1764-4a81-b108-f5e6adeb6ac9",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_name\": \"ethan\",\r\n//   \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"12345678\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{devUrl}}/api/users/login",
+          "host": [
+            "{{devUrl}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "login"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "0009962a-0bd8-48ba-b9a1-bc8a4c64c8fd",
+          "name": "User Login RESPONSE 1",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"user_name\": \"dummyuser\",\r\n  \"user_email\": \"dummyemail@example.com\",\r\n  \"user_password\": \"password123\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://lliz.onrender.com/api/users/login",
+              "protocol": "https",
+              "host": [
+                "lliz",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 15 Dec 2024 13:54:22 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "326"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "CF-Ray",
+              "value": "8f26ec044d6c0700-CPT"
+            },
+            {
+              "key": "CF-Cache-Status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "https://lets-learn-isizulu.netlify.app"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1e4-gyzzpyS36BesU9gBcjdDc2rIbKM\""
+            },
+            {
+              "key": "Vary",
+              "value": "Origin, Accept-Encoding"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "rndr-id",
+              "value": "c3d6466b-7c49-4e8b"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-render-origin-server",
+              "value": "Render"
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"Login successful\",\n    \"user\": {\n        \"user_id\": 1,\n        \"user_email\": \"dummyemail@example.com\",\n        \"user_name\": \"dummyuser\",\n        \"user_key\": \"uh9hbidjewcivuwgevdibqjwk\",\n        \"role\": \"admin\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJkdW1teXVzZXIiLCJpYXQiOjE3MzQyNzA4NjIsImV4cCI6MTczNDI3NDQ2Mn0.hWM7vF2Mx_bniiIHgJpCQM6z1IW3_5D5MiPoqE8_60Q\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzQyNzA4NjIsImV4cCI6MTczNDg3NTY2Mn0.er_UUFhibLjsxlqfovn4CIkjaZ-TnCoJ4JCjY0lETeg\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "GET Tags Dev",
+      "id": "78017be6-13ab-4159-ba7a-fb670ff9c87e",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJkdW1teXVzZXIiLCJpYXQiOjE3MzQyNzA4NjIsImV4cCI6MTczNDI3NDQ2Mn0.hWM7vF2Mx_bniiIHgJpCQM6z1IW3_5D5MiPoqE8_60Q",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/tags",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "tags"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "d9754602-e265-4cac-88b7-3955f0a1056f",
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "5b522a25-2b3c-4bf8-bd59-0c68b89869ae",
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

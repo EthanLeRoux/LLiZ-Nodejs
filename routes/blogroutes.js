@@ -201,32 +201,70 @@ router.delete("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
         const blogId = req.params.id;
-        const { title, content } = req.body;
+        const { title, content, authorId, tags } = req.body;
 
         if (!blogId.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ error: "Invalid blog ID" });
         }
 
-        const updated = await Blog.findByIdAndUpdate(
-            blogId,
-            {
-                title,
-                content,
-                updated_at: new Date()
-            },
-            { new: true }
-        );
-
-        if (!updated) {
+        const blog = await Blog.findById(blogId);
+        if (!blog) {
             return res.status(404).json({ error: "Blog not found" });
         }
 
-        res.json({ message: "Blog updated successfully" });
+        // Authorization check
+        if (blog.authorId.toString() !== authorId) {
+            return res.status(403).json({ error: "You are not authorized to update this blog" });
+        }
+
+        let updateData = {};
+
+        // Only update title if it's provided AND not blank
+        if (title && title.trim() !== "") {
+            updateData.title = title;
+        }
+
+        // Only update content if it's provided AND not blank
+        if (content && content.trim() !== "") {
+            updateData.content = content;
+        }
+
+        // Tag handling (only if tags array exists)
+        if (Array.isArray(tags) && tags.length > 0) {
+            let tagIds = [];
+
+            for (const tagName of tags) {
+                let tag = await Tag.findOne({ tag_name: tagName });
+
+                if (!tag) {
+                    console.warn(`Tag "${tagName}" not found. Skipping.`);
+                    continue;
+                }
+
+                tagIds.push(tag._id);
+            }
+
+            // Only update tags if valid ones were found
+            if (tagIds.length > 0) {
+                updateData.tags = tagIds;
+            }
+        }
+
+        updateData.updated_at = new Date();
+
+        const updated = await Blog.findByIdAndUpdate(
+            blogId,
+            updateData,
+            { new: true }
+        );
+
+        res.json({ message: "Blog updated successfully", blog: updated });
 
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: "Internal Server Error: Unable to update the blog" });
     }
 });
+
 
 module.exports = router;
