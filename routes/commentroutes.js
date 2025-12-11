@@ -48,6 +48,30 @@ router.post('/', async (req, res) => {
     }
 });
 
+// PUT - Edit a comment's content
+router.put('/:commentId', async (req, res) => {
+    const { content } = req.body;
+
+    if (!content) {
+        return res.status(400).json({ error: 'Content is required' });
+    }
+
+    try {
+        const updatedComment = await Comment.findByIdAndUpdate(
+            req.params.commentId,
+            { content },
+            { new: true }
+        );
+        if (!updatedComment) {
+            return res.status(404).json({ error: 'Comment not found' });
+        }
+        res.json(updatedComment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update comment' });
+    }
+});
+
 // DELETE a comment (optional, admin only)
 router.delete('/:commentId', async (req, res) => {
     try {
