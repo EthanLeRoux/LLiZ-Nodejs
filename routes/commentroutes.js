@@ -32,7 +32,6 @@ router.get('/:commentId', async (req, res) => {
 // POST a new comment
 router.post('/', async (req, res) => {
     const { blogId, author, authorId, content, parentId } = req.body;
-    console.log("REQ BODY:", req.body);
 
     if (!blogId || !author || !authorId || !content) {
         return res.status(400).json({ error: 'Blog ID, author ID, author, and content are required' });

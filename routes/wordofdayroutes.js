@@ -30,17 +30,16 @@ router.get("/", async (req, res) => {
 
 
 router.post('/import', async (req, res) => {
-  const words = req.body; // Expecting an array of { word, definition, word_date }
+  const { words } = req.body; // 👈 extract words array
 
   if (!Array.isArray(words)) {
-    return res.status(400).json({ error: 'Request body must be an array of words' });
+    return res.status(400).json({ error: 'Request body must contain a words array' });
   }
 
   try {
     const formattedWords = words.map(w => ({
       word: w.word,
       definition: w.definition,
-      // Make sure word_date is stored as start of day UTC
       word_date: new Date(new Date(w.word_date).setHours(0, 0, 0, 0))
     }));
 
@@ -55,6 +54,7 @@ router.post('/import', async (req, res) => {
     res.status(500).json({ error: 'Failed to import words' });
   }
 });
+
 
 
 module.exports = router;
