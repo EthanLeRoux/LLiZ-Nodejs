@@ -49,7 +49,7 @@ router.post('/reset-password/:token', async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     // Update correct field
-    user.user_password = await bcrypt.hash(password, 10);
+    user.user_password = password;
     await user.save();
 
     res.json({ message: 'Password successfully reset' });
