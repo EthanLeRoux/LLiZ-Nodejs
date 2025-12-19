@@ -26,7 +26,7 @@ router.put("/:id", verifyToken, async (req, res) => {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(user_password, 10);
+        const hashedPassword = user_password;
 
         // Update user
         const updatedUser = await User.findByIdAndUpdate(

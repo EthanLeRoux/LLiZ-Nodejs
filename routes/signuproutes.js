@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     }
 
     const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(user_password, saltRounds);
+    const hashedPassword = user_password; //no more hashing, as theres a hashing presave for user schema
     const role = "user";
     const userKey = "uh9hbidjewcivuwgevdibqjwk";
 

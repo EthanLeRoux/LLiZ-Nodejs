@@ -13,6 +13,7 @@ const tagRoutes = require('./routes/tagroutes');
 const connectDB = require("./mongodb");
 const commentRoutes = require('./routes/commentroutes');
 const likeRoutes = require('./routes/likeroutes');
+const forgotpswdroutes = require('./routes/forgotpswdroutes');
 
 //load env vars
 dotenv.config();
@@ -53,3 +54,4 @@ app.use('/api/users/refresh',refreshRoutes);
 app.use('/',homeRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/bloglikes', likeRoutes);
+app.use('/api/forgotpswd', forgotpswdroutes);
