@@ -78,7 +78,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 });
 
 //Forgot email
-router.post("/forgotemail", async (req, res)=>{
+router.post("/forgotemail", verifyToken, async (req, res)=>{
   const { email } = req.body;
 
     try {
@@ -128,7 +128,7 @@ router.post("/forgotemail", async (req, res)=>{
     }
 });
 
-router.post("/resetemail", async (req, res) => {
+router.post("/resetemail", verifyToken, async (req, res) => {
   const { resetCode, newEmail, userId } = req.body;
 
   try {
