@@ -78,10 +78,12 @@ router.delete("/:id", verifyToken, async (req, res) => {
 });
 
 //Forgot email
-router.post("/forgotemail", verifyToken, async (req, res)=>{
+router.post("/forgotemail", async (req, res)=>{
   const { email } = req.body;
 
     try {
+        //console.log(req.body);
+
         // Check if email exists
         const user = await User.findOne({ user_email: email });
         if (!user) return res.status(404).json({ message: 'User not found' });
@@ -128,11 +130,11 @@ router.post("/forgotemail", verifyToken, async (req, res)=>{
     }
 });
 
-router.post("/resetemail", verifyToken, async (req, res) => {
+router.post("/resetemail", async (req, res) => {
   const { resetCode, newEmail, userId } = req.body;
 
   try {
-    const token = await Fgtoken.findOne({ resetCode });
+    const token = await Fgtoken.findOne({ resetCode,userId });
     if (!token) {
       return res.status(400).json({ message: "Invalid reset code" });
     }
